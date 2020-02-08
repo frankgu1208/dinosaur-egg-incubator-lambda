@@ -6,10 +6,20 @@ import * as config from '../constant/config';
 import * as errors from '../constant/errors';
 
 export class IncubatorController {
+    /**
+     * @constructor for IncubatorController
+     * @param incubatorRepo domain logic for incubator
+     */
     public constructor(
         public incubatorRepo: IncubatorRepo = new IncubatorRepo(),
     ) { }
 
+    /**
+     * Controller function for putSettings
+     * @param event aws api gateway event, body should be JSON formate.
+     *  Body formate should be stringified of @see ApiInput
+     * @param callback aws api gateway callback function to return result
+     */
     public putSettings: ApiHandler = async (
         event: ApiEvent, _: ApiContext, callback: ApiCallback,
     ): Promise<void> => {
@@ -23,6 +33,7 @@ export class IncubatorController {
         const validSequence = sequence.filter(seq => Number.isInteger(seq));
         const rotationAmount = +rotation_amount;
 
+        // validate the input.number_of_eggs
         if (!Number.isInteger(eggAmount)
             || eggAmount < config.MIN_EGG_AMOUNT
             || eggAmount > config.MAX_EGG_AMOUNT) {
@@ -35,6 +46,7 @@ export class IncubatorController {
             return undefined;
         }
 
+        // validate the input.sequence
         if (sequence.length !== validSequence.length) {
             console.error(errors.ERROR_MESSAGE.InvalidSequence);
             ResponseBuilder.badRequest(
@@ -45,6 +57,7 @@ export class IncubatorController {
             return undefined;
         }
 
+        // validate the input.rotation_amount
         if (!rotationAmount
             || rotationAmount < config.MIN_ROTATION_AMOUNT
             || rotationAmount > config.MAX_ROTATION_AMOUNT) {
@@ -75,6 +88,10 @@ export class IncubatorController {
         ResponseBuilder.ok<ApiResult>(apiResult, callback);
     }
 
+    /**
+     * Controller function for portRun
+     * @param callback aws api gateway callback function to return result
+     */
     public portRun: ApiHandler = async (
         _: ApiEvent, __: ApiContext, callback: ApiCallback,
     ): Promise<void> => {

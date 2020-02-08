@@ -3,10 +3,20 @@ import { Incubator, Egg } from '../interfaces/models';
 import * as config from '../constant/config';
 
 export class IncubatorRepo {
+    /**
+     * @constructor for IncubatorRepo
+     * @param incubatorData data mapping to dynamoDb
+     */
     public constructor(
         public incubatorData: IncubatorData = new IncubatorData(),
     ) { }
 
+    /**
+     * This function will create a new incubator
+     * @param amount eggs amount, should be integer
+     * @param sequence sequence to rotate the eggs, array in integers
+     * @param rotation rotation percentage, between 0 to 1
+     */
     public async createIncubator(
         amount: number, sequence: number[], rotation: number,
     ): Promise<Incubator> {
@@ -26,6 +36,11 @@ export class IncubatorRepo {
         return putResult;
     }
 
+    /**
+     * To rotate the eggs already in the database,
+     * If the incubator not exists, it will return undefined
+     * If the incubator has already been rotated, it will return incubator directly
+     */
     public async rotateEggs(): Promise<Incubator> {
         const incubator = await this.incubatorData.getIncubator();
         if (!incubator) {

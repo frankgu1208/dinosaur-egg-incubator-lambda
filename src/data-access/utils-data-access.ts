@@ -1,15 +1,23 @@
 import { DynamoDB } from 'aws-sdk';
 import * as config from '../constant/config';
 
+/**
+ * @abstract @class a general class for data mapping and access to dynamoDb
+ */
 export abstract class DataAccess<T> {
     public static readonly isOffline: boolean = process.env.IS_OFFLINE != null
         && process.env.IS_OFFLINE !== 'false';
     public static readonly defaultAwsRegion: string = process.env.DEFAULT_AWS_REGION
         || config.AWS_REGION_SYDNEY;
     public static isDynamoDbLocal: boolean = DataAccess.isOffline;
-
     protected dc: DynamoDB.DocumentClient;
 
+    /**
+     * @constructor
+     * @param tableName table name for this type of data
+     * @param region default region will be ap-southeast-2
+     * @param allowLocal for local unit test
+     */
     constructor(
         protected tableName: string,
         region: string = DataAccess.defaultAwsRegion,
@@ -18,6 +26,11 @@ export abstract class DataAccess<T> {
         this.dc = this.buildDocumentClient(region, allowLocal);
     }
 
+    /**
+     * build document client
+     * @param region default region will be ap-southeast-2
+     * @param allowLocal for local unit test
+     */
     public buildDocumentClient(
         region: string = DataAccess.defaultAwsRegion,
         allowLocal = true,
@@ -46,6 +59,10 @@ export abstract class DataAccess<T> {
             .then(result => result && result.Item as T);
     }
 
+    /**
+     * Put the item into the table
+     * @param item new item
+     */
     protected put(item: T): Promise<T> {
         return this.dc.put({
             Item: item,
@@ -58,6 +75,12 @@ export abstract class DataAccess<T> {
             });
     }
 
+    /**
+     * Update an existing item in the table
+     * If the item is not existing, it will create a new one
+     * @param item updated item
+     * @param paramKey object for partition key and sort key
+     */
     protected update(item: T, paramKey: object): Promise<T> {
         const fields = Object.keys(item).filter(key => (
             item[key] !== undefined && item[key] !== null
