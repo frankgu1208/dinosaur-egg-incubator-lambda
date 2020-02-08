@@ -1,0 +1,29 @@
+# package directories
+node_modules
+*/node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+*/.serverless
+
+# Webpack directories
+*/.webpack
+.webpack
+
+# compiled from .ts
+*/*.js.map
+!*/*.config.js
+
+# tmporary files
+.dynamodb
+*/.dynamodb
+~$*
+API.pdf
+*/.nyc_output
+*/*/.nyc_output
+*/.scannerwork
+*/*/.scannerwork
+.webpack-external-api
+*/coverage
+*/*/coverage

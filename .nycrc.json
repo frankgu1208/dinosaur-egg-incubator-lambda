@@ -1,0 +1,10 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "exclude": [
+      "webpack.config.js",
+      "**/coverage/lcov-report/*.js",
+      "**/*.spec.ts",
+      "**/*.spec.int.ts"
+  ],
+  "all": true
+}

@@ -1,0 +1,66 @@
+service:
+  name: dinosaur-egg-incubator
+
+plugins:
+  - serverless-webpack
+  - serverless-dynamodb-local
+  - serverless-offline
+
+provider:
+  name: aws
+  region: ${self:custom.region}
+  runtime: nodejs10.x
+  stackName: ${self:service.name}-${self:custom.specifiedStage}
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+      Resource: 
+        - { Fn::GetAtt: ["IncubatorTable", "Arn"] }
+  environment:
+    PARAM_ENV_NAME: ${self:custom.specifiedStage}
+    DEFAULT_AWS_REGION: ${self:custom.region}
+    INCUBATOR_TABLE_NAME: ${self:custom.incubatorTableName}
+    ENABLE_DEBUG_LOG: 'true'
+
+custom:
+  region: "ap-southeast-2"
+  specifiedStage: "dev"
+  incubatorTableName: "dinosaur-egg-incubator"
+
+functions:
+  putSettings:
+    handler: src/handler.putSettings
+    events:
+      - http:
+          path: api/settings
+          method: put
+          cors: true
+  postRun:
+    handler: src/handler.postRun
+    events:
+      - http:
+          path: api/run
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    IncubatorTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.incubatorTableName}
+        AttributeDefinitions:
+          - AttributeName: incubatorId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: incubatorId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
