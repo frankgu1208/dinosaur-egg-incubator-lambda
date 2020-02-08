@@ -20,7 +20,7 @@ const mockData2 = {
     times: 0,
 } as Incubator;
 
-describe('handler', () => {
+describe('incubator-data', () => {
     before(() => {
         incubatorData = new IncubatorData('dinosaur-egg-incubator');
     });

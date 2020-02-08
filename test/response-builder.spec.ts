@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { ResponseBuilder } from '../src/shared/response-builder';
 
-describe('handler', () => {
+describe('response-builder', () => {
     it('should able to send bad request', () => {
         const expectErr = {
             error: {

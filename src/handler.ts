@@ -1,5 +1,5 @@
-import { ApiHandler } from 'shared/api-interfaces';
-import { IncubatorController } from 'controllers/incubator-controller';
+import { ApiHandler } from './shared/api-interfaces';
+import { IncubatorController } from './controllers/incubator-controller';
 
 const controller: IncubatorController = new IncubatorController();
 

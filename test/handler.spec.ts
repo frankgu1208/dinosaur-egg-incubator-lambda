@@ -1,9 +1,12 @@
 import { expect } from 'chai';
-// import { putSettings, postRun } from '../src/handler';
+import { putSettings, postRun } from '../src/handler';
 
 describe('handler', () => {
-    it.skip('should able to process put settings', async function() {
-        this.timeout(100000);
-        expect(true).to.equal(true);
+    it('should able putSettings', () => {
+        expect(putSettings).to.be.a('Function');
+    });
+
+    it('should able postRun', () => {
+        expect(postRun).to.be.a('Function');
     });
 });

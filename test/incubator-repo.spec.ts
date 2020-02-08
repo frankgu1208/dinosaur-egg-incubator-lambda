@@ -6,7 +6,7 @@ import * as config from '../src/constant/config';
 
 let incubatorRepo: IncubatorRepo;
 
-describe('handler', () => {
+describe('incubator-repo', () => {
     before(() => {
         const incubatorData = new IncubatorData('dinosaur-egg-incubator');
         incubatorRepo = new IncubatorRepo(incubatorData);

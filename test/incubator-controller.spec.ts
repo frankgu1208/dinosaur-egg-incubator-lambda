@@ -20,7 +20,7 @@ const mockEmptyEvent = {
 };
 let incubatorController: IncubatorController;
 
-describe('handler', () => {
+describe('incubator-controller', () => {
     before(() => {
         const incubatorData = new IncubatorData('dinosaur-egg-incubator');
         const incubatorRepo = new IncubatorRepo(incubatorData);

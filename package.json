@@ -7,7 +7,7 @@
     "verify": "mocha -r ts-node/register **/*.spec.ts",
     "pretest": "kill -9 $(lsof -t -i:8000); sls dynamodb install && sls dynamodb start",
     "test": "set +e; npm run pretest; set -e; npm run verify",
-    "coverage-no-cleanup": "sls dynamodb install && sls dynamodb start && nyc --reporter=lcov --reporter=text mocha -r ts-node/register -r source-map-support/register --reporter mocha-multi-reporters --reporter-options configFile=../common-sls/mocha-reports.json **/*.spec.ts **/*.spec.int.ts",
+    "coverage-no-cleanup": "sls dynamodb install && sls dynamodb start && nyc --reporter=lcov --reporter=text mocha -r ts-node/register -r source-map-support/register --reporter mocha-multi-reporters --reporter-options **/*.spec.ts",
     "precoverage": "kill -9 $(lsof -t -i:8000); exit 0",
     "postcoverage": "kill -9 $(lsof -t -i:8000)",
     "coverage": "npm run coverage-no-cleanup",

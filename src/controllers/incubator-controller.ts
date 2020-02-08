@@ -12,7 +12,7 @@ export class IncubatorController {
 
     public putSettings: ApiHandler = async (
         event: ApiEvent, _: ApiContext, callback: ApiCallback,
-    ): Promise<ApiResult> => {
+    ): Promise<void> => {
         const {
             number_of_eggs,
             sequence: sequenceString,
@@ -73,12 +73,11 @@ export class IncubatorController {
         } as ApiResult;
 
         ResponseBuilder.ok<ApiResult>(apiResult, callback);
-        return apiResult;
     }
 
     public portRun: ApiHandler = async (
         _: ApiEvent, __: ApiContext, callback: ApiCallback,
-    ): Promise<ApiResult> => {
+    ): Promise<void> => {
         const incubator = await this.incubatorRepo.rotateEggs();
 
         if (!incubator) {
@@ -103,6 +102,5 @@ export class IncubatorController {
         } as ApiResult;
 
         ResponseBuilder.ok<ApiResult>(apiResult, callback);
-        return apiResult;
     }
 }
