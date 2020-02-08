@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import * as config from '../constant/config';
+import * as config from 'constant/config';
 
 export abstract class DataAccess<T> {
     public static readonly isOffline: boolean = process.env.IS_OFFLINE != null

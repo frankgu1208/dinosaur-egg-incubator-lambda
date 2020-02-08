@@ -7,7 +7,7 @@ export const ERROR_CODE = {
 
 export const ERROR_MESSAGE = {
   InvalidEggNumber: 'Egg number should be an integer between 0 and 20',
-  InvalidSequence: 'Sequence should only contain integer and within egg range',
+  InvalidSequence: 'Sequence should only contain integer and separated by space',
   InvalidRotationAmount: 'Rotation amount should between 0 and 1',
   IncubatorNotExist: 'Incubator hasn\'t been setted',
 };

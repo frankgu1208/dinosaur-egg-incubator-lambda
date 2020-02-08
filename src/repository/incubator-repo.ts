@@ -1,6 +1,6 @@
-import { IncubatorData } from '../data-access/incubator-data';
-import { Incubator, Egg } from '../interfaces/models';
-import * as config from '../constant/config';
+import { IncubatorData } from 'data-access/incubator-data';
+import { Incubator, Egg } from 'interfaces/models';
+import * as config from 'constant/config';
 
 const incubatorData = new IncubatorData();
 

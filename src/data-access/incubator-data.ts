@@ -1,6 +1,6 @@
 import { DataAccess } from './utils-data-access';
-import { Incubator } from '../interfaces/models';
-import * as config from '../constant/config';
+import { Incubator } from 'interfaces/models';
+import * as config from 'constant/config';
 
 export class IncubatorData extends DataAccess<Incubator> {
     public static readonly ENV_VAR_CATALOG_TABLE_NAME = 'INCUBATOR_TABLE_NAME';

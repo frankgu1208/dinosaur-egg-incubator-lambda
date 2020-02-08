@@ -1,24 +1,23 @@
-import { ApiCallback, ApiContext, ApiEvent, ApiHandler } from '../shared/api-interfaces';
-import { ResponseBuilder } from '../shared/response-builder';
-import { ApiResult, ApiInput } from '../interfaces/api';
-import { IncubatorRepo } from '../repository/incubator-repo';
-import * as config from '../constant/config';
-import * as errors from '../constant/errors';
+import { ApiCallback, ApiContext, ApiEvent, ApiHandler } from 'shared/api-interfaces';
+import { ResponseBuilder } from 'shared/response-builder';
+import { IncubatorRepo } from 'repository/incubator-repo';
+import { ApiResult, ApiInput } from 'interfaces/api';
+import * as config from 'constant/config';
+import * as errors from 'constant/errors';
 
 const incubatorRepo = new IncubatorRepo();
 
 export class IncubatorController {
   public putSettings: ApiHandler = async (
     event: ApiEvent, _: ApiContext, callback: ApiCallback,
-  ): Promise<void> => {
+  ): Promise<ApiResult> => {
     const {
       number_of_eggs: eggAmount,
       sequence: sequenceString,
       rotation_amount: rotationAmount,
     } = JSON.parse(event.body) as ApiInput;
     const sequence = sequenceString.split(/\s+/).map(s => +s);
-    const validSequence = sequence.filter(seq => seq >= config.MIN_EGG_AMOUNT
-      && seq <= eggAmount && Number.isInteger(seq));
+    const validSequence = sequence.filter(seq => Number.isInteger(seq));
 
     if (eggAmount < config.MIN_EGG_AMOUNT
       || eggAmount > config.MAX_EGG_AMOUNT
@@ -69,11 +68,12 @@ export class IncubatorController {
     } as ApiResult;
 
     ResponseBuilder.ok<ApiResult>(apiResult, callback);
+    return apiResult;
   }
 
   public portRun: ApiHandler = async (
     _: ApiEvent, __: ApiContext, callback: ApiCallback,
-  ): Promise<void> => {
+  ): Promise<ApiResult> => {
     const incubator = await incubatorRepo.rotateEggs();
 
     if (!incubator) {
@@ -98,5 +98,6 @@ export class IncubatorController {
     } as ApiResult;
 
     ResponseBuilder.ok<ApiResult>(apiResult, callback);
+    return apiResult;
   }
 }

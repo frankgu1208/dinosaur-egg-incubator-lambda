@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "lib": [
       "es2017"
     ],
@@ -10,9 +11,10 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "target": "es2017",
-    "outDir": "lib"
+    "outDir": "./dist"
   },
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "include": ["./src/**/*.ts"]
 }

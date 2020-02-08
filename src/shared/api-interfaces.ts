@@ -5,7 +5,7 @@ import { ErrorResult } from './errors';
 export type ApiCallback = ProxyCallback;
 export type ApiContext = Context;
 export type ApiEvent = APIGatewayEvent;
-export type ApiHandler = (event: APIGatewayEvent, context: Context, callback: ApiCallback) => void; // Same as ProxyHandler, but requires callback.
+export type ApiHandler = (event: APIGatewayEvent, context: Context, callback: ApiCallback) => any; // Same as ProxyHandler, but requires callback.
 export type ApiResponse = ProxyResult;
 
 export interface ErrorResponseBody {
