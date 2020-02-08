@@ -26,6 +26,10 @@ export class IncubatorRepo {
 
     public async rotateEggs(): Promise<Incubator> {
         const incubator = await incubatorData.getIncubator();
+        if (!incubator) {
+            return undefined;
+        }
+
         // Check if the incubator ran already
         if (config.MAX_RUN_TIMES && incubator.times >= config.MAX_RUN_TIMES) {
             return incubator;

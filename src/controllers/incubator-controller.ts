@@ -75,6 +75,16 @@ export class IncubatorController {
     _: ApiEvent, __: ApiContext, callback: ApiCallback,
   ): Promise<void> => {
     const incubator = await incubatorRepo.rotateEggs();
+
+    if (!incubator) {
+      ResponseBuilder.badRequest(
+        errors.ERROR_CODE.IncubatorNotExist,
+        errors.ERROR_MESSAGE.IncubatorNotExist,
+        callback,
+      );
+      return undefined;
+    }
+
     const apiResult = {
       report: {
         number_of_eggs: incubator.eggs.length,

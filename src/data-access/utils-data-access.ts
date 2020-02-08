@@ -1,11 +1,11 @@
 import { DynamoDB } from 'aws-sdk';
+import * as config from '../constant/config';
 
-export class DataAccess<T> {
-    public static readonly AWS_REGION_SYDNEY = 'ap-southeast-2';
+export abstract class DataAccess<T> {
     public static readonly isOffline: boolean = process.env.IS_OFFLINE != null
         && process.env.IS_OFFLINE !== 'false';
     public static readonly defaultAwsRegion: string = process.env.DEFAULT_AWS_REGION
-        || DataAccess.AWS_REGION_SYDNEY;
+        || config.AWS_REGION_SYDNEY;
     public static isDynamoDbLocal: boolean = DataAccess.isOffline;
 
     protected dc: DynamoDB.DocumentClient;
