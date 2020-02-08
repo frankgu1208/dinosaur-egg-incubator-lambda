@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import * as config from 'constant/config';
+import * as config from '../constant/config';
 
 export abstract class DataAccess<T> {
     public static readonly isOffline: boolean = process.env.IS_OFFLINE != null
@@ -38,7 +38,7 @@ export abstract class DataAccess<T> {
      * Get the item in the table by the key
      * @param key object for partition key and sort key
      */
-    public get(key: object): Promise<T> {
+    protected get(key: object): Promise<T> {
         return this.dc.get({
             Key: key,
             TableName: this.tableName,
@@ -46,7 +46,7 @@ export abstract class DataAccess<T> {
             .then(result => result && result.Item as T);
     }
 
-    public put(item: T): Promise<T> {
+    protected put(item: T): Promise<T> {
         return this.dc.put({
             Item: item,
             TableName: this.tableName,
@@ -58,7 +58,7 @@ export abstract class DataAccess<T> {
             });
     }
 
-    public update(item: T, paramKey: object): Promise<T> {
+    protected update(item: T, paramKey: object): Promise<T> {
         const fields = Object.keys(item).filter(key => (
             item[key] !== undefined && item[key] !== null
             && (paramKey[key] === undefined || paramKey[key] === null)));

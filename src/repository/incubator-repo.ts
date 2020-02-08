@@ -1,10 +1,12 @@
-import { IncubatorData } from 'data-access/incubator-data';
-import { Incubator, Egg } from 'interfaces/models';
-import * as config from 'constant/config';
-
-const incubatorData = new IncubatorData();
+import { IncubatorData } from '../data-access/incubator-data';
+import { Incubator, Egg } from '../interfaces/models';
+import * as config from '../constant/config';
 
 export class IncubatorRepo {
+    public constructor(
+        public incubatorData: IncubatorData = new IncubatorData(),
+    ) { }
+
     public async createIncubator(
         amount: number, sequence: number[], rotation: number,
     ): Promise<Incubator> {
@@ -20,12 +22,12 @@ export class IncubatorRepo {
             eggs,
             times: 0,
         } as Incubator;
-        const putResult = await incubatorData.putIncubator(incubator);
+        const putResult = await this.incubatorData.putIncubator(incubator);
         return putResult;
     }
 
     public async rotateEggs(): Promise<Incubator> {
-        const incubator = await incubatorData.getIncubator();
+        const incubator = await this.incubatorData.getIncubator();
         if (!incubator) {
             return undefined;
         }
@@ -43,6 +45,6 @@ export class IncubatorRepo {
             }
         });
         incubator.times++;
-        return incubatorData.updateIncubator(incubator);
+        return this.incubatorData.updateIncubator(incubator);
     }
 }

@@ -4,9 +4,10 @@
   "description": "Serverless for Dinosaur Egg Incubator",
   "main": "handler.js",
   "scripts": {
-    "test-no-cleanup": "sls dynamodb start --migrate; mocha -r ts-node/register **/*.spec.ts",
-    "test": "set +e; kill -9 $(lsof -t -i:8000); set -e; npm run test-no-cleanup; kill -9 $(lsof -t -i:8000)",
-    "coverage-no-cleanup": "sls dynamodb install && sls dynamodb start --migrate && nyc --reporter=lcov --reporter=text mocha -r ts-node/register -r source-map-support/register --reporter mocha-multi-reporters --reporter-options configFile=../mocha-reports.json **/*.spec.ts **/*.spec.int.ts",
+    "verify": "mocha -r ts-node/register **/*.spec.ts",
+    "pretest": "kill -9 $(lsof -t -i:8000); sls dynamodb install && sls dynamodb start",
+    "test": "set +e; npm run pretest; set -e; npm run verify",
+    "coverage-no-cleanup": "sls dynamodb install && sls dynamodb start && nyc --reporter=lcov --reporter=text mocha -r ts-node/register -r source-map-support/register --reporter mocha-multi-reporters --reporter-options configFile=../common-sls/mocha-reports.json **/*.spec.ts **/*.spec.int.ts",
     "precoverage": "kill -9 $(lsof -t -i:8000); exit 0",
     "postcoverage": "kill -9 $(lsof -t -i:8000)",
     "coverage": "npm run coverage-no-cleanup",
