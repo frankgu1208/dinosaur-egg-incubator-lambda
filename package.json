@@ -16,7 +16,7 @@
     "aws-sdk": "^2.453.0",
     "crypto-random-string": "^3.0.0",
     "lambda-log": "^2.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
